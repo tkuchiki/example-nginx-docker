@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  nginx1:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx1.conf:/etc/nginx/nginx.conf"
+    depends_on:
+      - nginx2
+      - nginx3
+  nginx2:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx2.conf:/etc/nginx/nginx.conf"
+    depends_on:
+      - nginx3
+  nginx3:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx3.conf:/etc/nginx/nginx.conf"
+  bench:
+    build: ./dockerfiles/benchmarker
+    depends_on:
+      - nginx1
