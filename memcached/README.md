@@ -166,6 +166,7 @@ Status code distribution:
 
 ### keepalive + try_file
 
+```
 $ make bench1
 docker-compose run bench -n 1000000 http://nginx1/1.jpg
 Starting memcached_memcached_1 ... done
