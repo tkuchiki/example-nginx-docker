@@ -7,7 +7,9 @@ down:
 	docker-compose down
 
 download_file:
-	curl -L https://httpbin.org/image/jpeg -o 1.jpg
+	if [ ! -f 1.jpg ]; then \
+		curl -L https://httpbin.org/image/jpeg -o 1.jpg ; \
+	fi
 
 upload_file:
 	make upload_file1
