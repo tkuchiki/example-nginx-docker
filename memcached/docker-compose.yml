@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+  nginx1:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    depends_on:
+      - nginx2
+      - nginx3
+      - memcached
+  nginx2:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    depends_on:
+      - nginx3
+      - memcached
+  nginx3:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    depends_on:
+      - memcached
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211"
+  bench:
+    build: ./dockerfiles/benchmarker
+    depends_on:
+      - nginx1
