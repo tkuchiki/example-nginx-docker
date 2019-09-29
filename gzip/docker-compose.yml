@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  nginx1:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - "./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./dockerfiles/nginx/test.json:/tmp/test.json"
+      - "./dockerfiles/nginx/test.json.gz:/tmp/test.json.gz"
