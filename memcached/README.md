@@ -217,3 +217,165 @@ Details (average, fastest, slowest):
 Status code distribution:
   [200] 1000000 responses
 ```
+
+## memcached multi hosts
+
+```
+$ make bench_multi1
+docker-compose run bench -n 1000000 http://nginx1/multi/1.jpg
+Starting memcached_memcached1_1 ... done
+Starting memcached_memcached2_1 ... done
+Starting memcached_memcached3_1 ... done
+Starting memcached_nginx3_1     ... done
+Starting memcached_nginx2_1     ... done
+Starting memcached_nginx1_1     ... done
+
+Summary:
+  Total:        302.2624 secs
+  Slowest:      1.0277 secs
+  Fastest:      0.0006 secs
+  Average:      0.0151 secs
+  Requests/sec: 3308.3834
+
+  Total data:   35588000000 bytes
+  Size/request: 35588 bytes
+
+Response time histogram:
+  0.001 [1]     |
+  0.103 [999872]        |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.206 [27]    |
+  0.309 [0]     |
+  0.411 [0]     |
+  0.514 [0]     |
+  0.617 [0]     |
+  0.720 [0]     |
+  0.822 [0]     |
+  0.925 [50]    |
+  1.028 [50]    |
+
+
+Latency distribution:
+  10% in 0.0088 secs
+  25% in 0.0106 secs
+  50% in 0.0142 secs
+  75% in 0.0180 secs
+  90% in 0.0215 secs
+  95% in 0.0246 secs
+  99% in 0.0320 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0006 secs, 1.0277 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.0237 secs
+  req write:    0.0000 secs, 0.0000 secs, 0.0264 secs
+  resp wait:    0.0146 secs, 0.0003 secs, 1.0275 secs
+  resp read:    0.0003 secs, 0.0000 secs, 0.0405 secs
+
+Status code distribution:
+  [200] 1000000 responses
+```
+```
+$ make bench_multi2
+docker-compose run bench -n 1000000 http://nginx1/multi/2.jpg
+Starting memcached_memcached3_1 ... done
+Starting memcached_memcached1_1 ... done
+Starting memcached_memcached2_1 ... done
+Starting memcached_nginx3_1     ... done
+Starting memcached_nginx2_1     ... done
+Starting memcached_nginx1_1     ... done
+
+Summary:
+  Total:        290.2844 secs
+  Slowest:      1.0209 secs
+  Fastest:      0.0005 secs
+  Average:      0.0145 secs
+  Requests/sec: 3444.8981
+
+  Total data:   35588000000 bytes
+  Size/request: 35588 bytes
+
+Response time histogram:
+  0.000 [1]     |
+  0.103 [999937]        |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.205 [12]    |
+  0.307 [0]     |
+  0.409 [0]     |
+  0.511 [0]     |
+  0.613 [0]     |
+  0.715 [0]     |
+  0.817 [39]    |
+  0.919 [0]     |
+  1.021 [11]    |
+
+
+Latency distribution:
+  10% in 0.0086 secs
+  25% in 0.0105 secs
+  50% in 0.0137 secs
+  75% in 0.0173 secs
+  90% in 0.0204 secs
+  95% in 0.0233 secs
+  99% in 0.0301 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0005 secs, 1.0209 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.0185 secs
+  req write:    0.0000 secs, 0.0000 secs, 0.7690 secs
+  resp wait:    0.0140 secs, 0.0003 secs, 1.0176 secs
+  resp read:    0.0002 secs, 0.0000 secs, 0.7709 secs
+
+Status code distribution:
+  [200] 1000000 responses
+```
+
+```
+$ make bench_multi3
+docker-compose run bench -n 1000000 http://nginx1/multi/3.jpg
+Starting memcached_memcached2_1 ... done
+Starting memcached_memcached1_1 ... done
+Starting memcached_nginx3_1     ... done
+Starting memcached_nginx2_1     ... done
+Starting memcached_nginx1_1     ... done
+
+Summary:
+  Total:        305.1954 secs
+  Slowest:      1.0238 secs
+  Fastest:      0.0005 secs
+  Average:      0.0152 secs
+  Requests/sec: 3276.5897
+
+  Total data:   35588000000 bytes
+  Size/request: 35588 bytes
+
+Response time histogram:
+  0.000 [1]     |
+  0.103 [999823]        |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.205 [67]    |
+  0.307 [5]     |
+  0.410 [1]     |
+  0.512 [0]     |
+  0.614 [3]     |
+  0.717 [19]    |
+  0.819 [1]     |
+  0.921 [77]    |
+  1.024 [3]     |
+
+
+Latency distribution:
+  10% in 0.0088 secs
+  25% in 0.0110 secs
+  50% in 0.0143 secs
+  75% in 0.0180 secs
+  90% in 0.0218 secs
+  95% in 0.0249 secs
+  99% in 0.0327 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0005 secs, 1.0238 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.8344 secs
+  req write:    0.0000 secs, 0.0000 secs, 0.0149 secs
+  resp wait:    0.0147 secs, 0.0003 secs, 1.0237 secs
+  resp read:    0.0002 secs, 0.0000 secs, 0.0346 secs
+
+Status code distribution:
+  [200] 1000000 responses
+```
