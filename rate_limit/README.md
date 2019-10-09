@@ -171,3 +171,68 @@ nginx error log
 ```
 2019/08/26 07:55:19 [error] 7#7: *20 limiting requests, excess: 5.005 by zone "ip", client: 172.26.0.3, server: localhost, request: "GET /rate_limit HTTP/1.1", host: "nginx"
 ```
+
+## Dry run
+
+```
+# terminal 1
+$ make dryrun
+docker-compose run bench -c 1 -q 20 -n 100 http://nginx/rate_limit_dryrun
+Starting rate_limit_nginx_1 ... done
+
+Summary:
+  Total:        5.0018 secs
+  Slowest:      0.0232 secs
+  Fastest:      0.0005 secs
+  Average:      0.0011 secs
+  Requests/sec: 19.9927
+
+  Total data:   61200 bytes
+  Size/request: 612 bytes
+
+Response time histogram:
+  0.001 [1]     |
+  0.003 [98]    |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.005 [0]     |
+  0.007 [0]     |
+  0.010 [0]     |
+  0.012 [0]     |
+  0.014 [0]     |
+  0.016 [0]     |
+  0.019 [0]     |
+  0.021 [0]     |
+  0.023 [1]     |
+
+
+Latency distribution:
+  10% in 0.0007 secs
+  25% in 0.0008 secs
+  50% in 0.0009 secs
+  75% in 0.0010 secs
+  90% in 0.0012 secs
+  95% in 0.0015 secs
+  99% in 0.0232 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0005 secs, 0.0232 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.0034 secs
+  req write:    0.0001 secs, 0.0000 secs, 0.0002 secs
+  resp wait:    0.0006 secs, 0.0003 secs, 0.0131 secs
+  resp read:    0.0002 secs, 0.0001 secs, 0.0012 secs
+
+Status code distribution:
+  [200] 100 responses
+
+# terminal 2
+$ docker-compose logs --no-color nginx | grep "dry run" | head -n 10
+nginx_1  | 2019/10/09 07:13:53 [error] 6#6: *1 limiting requests, dry run, excess: 0.550 by zone "all", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.600 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.350 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.100 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.250 by zone "all", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.500 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.250 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.250 by zone "all", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.500 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+nginx_1  | 2019/10/09 07:13:54 [error] 6#6: *1 limiting requests, dry run, excess: 0.250 by zone "ip", client: 172.24.0.3, server: localhost, request: "GET /rate_limit_dryrun HTTP/1.1", host: "nginx"
+```
